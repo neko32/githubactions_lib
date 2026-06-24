@@ -1,0 +1,53 @@
+name: Rust CI (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'The working directory where the Cargo.toml is located'
+        required: false
+        default: '.'
+        type: string
+      rust-version:
+        description: 'The Rust toolchain version to use (e.g., stable, beta, nightly)'
+        required: false
+        default: 'stable'
+        type: string
+
+jobs:
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ inputs.rust-version }}
+          components: clippy
+
+      - name: Run clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+  test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ inputs.rust-version }}
+
+      - name: Run tests
+        run: cargo test --verbose

@@ -1,0 +1,14 @@
+name: Test Reusable Workflows
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-rust-ci:
+    uses: ./.github/workflows/rust-ci.yml
+    with:
+      working-directory: tests/dummy-rust-project
+      rust-version: stable
