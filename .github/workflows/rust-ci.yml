@@ -18,11 +18,10 @@ on:
         required: false
         default: ''
         type: string
+    secrets:
       token:
         description: 'The token to use for checkout'
         required: false
-        default: ''
-        type: string
 
 jobs:
   clippy:
@@ -36,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository }}
-          token: ${{ inputs.token || github.token }}
+          token: ${{ secrets.token || github.token }}
 
       - name: Setup Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -58,7 +57,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository }}
-          token: ${{ inputs.token || github.token }}
+          token: ${{ secrets.token || github.token }}
 
       - name: Setup Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
