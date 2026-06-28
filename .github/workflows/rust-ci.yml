@@ -34,7 +34,9 @@ jobs:
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        if: ${{ secrets.APP_ID != '' }}
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+        if: ${{ env.APP_ID != '' }}
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
@@ -66,7 +68,9 @@ jobs:
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        if: ${{ secrets.APP_ID != '' }}
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+        if: ${{ env.APP_ID != '' }}
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.APP_ID }}
