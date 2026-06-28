@@ -13,6 +13,14 @@ on:
         required: false
         default: 'stable'
         type: string
+      repository:
+        description: 'The repository to checkout'
+        required: false
+        default: ''
+        type: string
+    secrets:
+      token:
+        required: false
 
 jobs:
   clippy:
@@ -24,6 +32,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository }}
+          token: ${{ secrets.token || github.token }}
 
       - name: Setup Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -43,6 +54,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository }}
+          token: ${{ secrets.token || github.token }}
 
       - name: Setup Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
