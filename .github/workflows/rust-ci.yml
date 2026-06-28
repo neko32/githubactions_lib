@@ -14,7 +14,12 @@ on:
         default: 'stable'
         type: string
       repository:
-        description: 'The repository to checkout'
+        description: 'The repository to checkout (owner/repo)'
+        required: false
+        default: ''
+        type: string
+      repository-name:
+        description: 'The repository name only (without owner)'
         required: false
         default: ''
         type: string
@@ -42,7 +47,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: neko32
-          repositories: ${{ inputs.repository || github.event.repository.name }}
+          repositories: ${{ inputs.repository-name || github.event.repository.name }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -76,7 +81,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: neko32
-          repositories: ${{ inputs.repository || github.event.repository.name }}
+          repositories: ${{ inputs.repository-name || github.event.repository.name }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
